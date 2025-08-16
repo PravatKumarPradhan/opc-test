@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: qr-flask-app
+    env: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn src.app:app"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: qr-flask-db
+          property: connectionString
+
+databases:
+  - name: qr-flask-db
+    plan: free
