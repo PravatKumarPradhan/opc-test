@@ -1,13 +1,20 @@
 from flask import Flask
+from src.database import init_db
 from src.routes import bp
-from database import init_db
 
 def create_app():
     app = Flask(__name__)
-    app.register_blueprint(bp)
+    app.secret_key = "supersecretkey"  # Needed for flash messages
+
+    # Initialize database
     init_db()
+
+    # Register blueprints
+    app.register_blueprint(bp)
+
     return app
 
+# Expose app globally so run.py can import it
 app = create_app()
 
 if __name__ == "__main__":
