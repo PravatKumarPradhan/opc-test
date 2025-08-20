@@ -3,3 +3,4 @@ SQLAlchemy
 psycopg2-binary
 qrcode[pil]
 gunicorn
+twilio
