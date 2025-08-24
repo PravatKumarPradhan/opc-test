@@ -46,8 +46,8 @@ def qr():
     return send_file(buf, mimetype="image/png")
 
 
-def generate_unique_code(phone, serial_num):
-    return f"OPC:{serial_num:04d}:{phone}"
+def generate_unique_code( serial_num):
+    return f"OPC_FC:{serial_num:04d}"
 
 @bp.route("/scan", methods=["GET", "POST"])
 def scan():
@@ -57,7 +57,7 @@ def scan():
         if phone:
             # Example: get_next_serial() fetches and increments serial from DB
             serial_num = get_next_serial()  # implement this based on your DB
-            unique_code = generate_unique_code(phone, serial_num)
+            unique_code = generate_unique_code(serial_num)
 
             # Save user data with unique code as needed
             save_number(phone, name, unique_code)
