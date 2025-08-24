@@ -19,7 +19,7 @@ bp = Blueprint("main", __name__)
 
 # Twilio config (replace with your credentials)
 TWILIO_SID = 'ACbf4cab149c7f09ad56d21b12bfe3be6f'
-TWILIO_AUTH_TOKEN = 'e89fab27e11c023162d4d0b786e277f2'
+TWILIO_AUTH_TOKEN = 'be4f757766332409204953c70d121d33'
 #TWILIO_WHATSAPP ='whatsapp:+14155238886'  # Twilio sandbox number
 TWILIO_WHATSAPP ='whatsapp:+917064578737'  # Twilio sandbox number
 
@@ -46,8 +46,8 @@ def qr():
     return send_file(buf, mimetype="image/png")
 
 
-def generate_unique_code(phone, serial_num):
-    return f"OPC:{serial_num:04d}:{phone}"
+def generate_unique_code( serial_num):
+    return f"OPC_FC:{serial_num:04d}"
 
 @bp.route("/scan", methods=["GET", "POST"])
 def scan():
@@ -57,7 +57,7 @@ def scan():
         if phone:
             # Example: get_next_serial() fetches and increments serial from DB
             serial_num = get_next_serial()  # implement this based on your DB
-            unique_code = generate_unique_code(phone, serial_num)
+            unique_code = generate_unique_code(serial_num)
 
             # Save user data with unique code as needed
             save_number(phone, name, unique_code)
