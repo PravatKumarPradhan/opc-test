@@ -31,6 +31,7 @@ def index():
 def qr():
    ## wa_link = "https://wa.me/14155238886?text=join%20cute-panda"
     wa_link = "http://192.168.1.12:5000/scan"
+    wa_link = "https://opc-test.onrender.com/scan"
     img = qrcode.make(wa_link)
     buf = io.BytesIO()
     img.save(buf, format="PNG")
