@@ -1,13 +1,135 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Enter Phone Number</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enter Details</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: #fff;
+      padding: 32px 16px;
+      border-radius: 18px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      width: 95%;
+      max-width: 420px;
+      min-height: 440px;  /* ensures logo is always visible */
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .logo-watermark {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 280px;
+      max-width: 85%;
+      min-width: 140px;
+      opacity: 0.16;  /* adjust for logo subtlety */
+      transform: translate(-50%, -50%);
+      z-index: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+    .container > form {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    label {
+      font-weight: bold;
+      color: #222;
+      font-size: 1.12rem;
+      text-align: center;
+      width: 100%;
+      margin-bottom: 4px;
+      margin-top: 8px;
+    }
+    input[type="text"], input[type="tel"] {
+      background: rgba(255,255,255,0.65);
+      border: 1.5px solid #aab;
+      border-radius: 8px;
+      font-size: 1rem;
+      color: #222;
+      font-weight: 500;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+      outline: none;
+      transition: background 0.3s, border-color 0.2s;
+      padding: 13px 12px;
+      text-align: center;
+      width: 90%;
+      max-width: 330px;
+      margin-bottom: 6px;
+    }
+    input:focus {
+      background: rgba(255,255,255,0.9);
+      border-color: #007bff;
+    }
+    input[type="text"]::placeholder,
+    input[type="tel"]::placeholder {
+      color: #666;
+      opacity: 0.85;
+      text-align: center;
+    }
+    button {
+      padding: 13px 0;
+      background: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      font-size: 1.13rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+      width: 90%;
+      max-width: 330px;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    @media (max-width: 480px) {
+      .container {
+        padding: 12px 5px;
+        min-height: 340px;
+      }
+      .logo-watermark {
+        width: 95vw;
+        min-width: 90px;
+      }
+      button, input[type="text"], input[type="tel"] {
+        max-width: 98vw;
+      }
+    }
+  </style>
 </head>
 <body>
-    <h2>📱 Enter your phone number</h2>
-    <form method="POST">
-        <input type="text" name="phone" placeholder="Enter phone number" required>
-        <button type="submit">Submit</button>
+  <div class="container">
+    <img src="{{ url_for('static', filename='opc_logo.png') }}" class="logo-watermark" alt="Committee Logo Watermark">
+    <form method="POST" autocomplete="off">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" placeholder="Enter your name" required autocomplete="name">
+
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" name="phone" placeholder="Enter phone number" pattern="[0-9]{10}" maxlength="10" required autocomplete="tel">
+
+      <button type="submit">Submit</button>
     </form>
+  </div>
 </body>
 </html>

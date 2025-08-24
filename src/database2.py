@@ -1,26 +1,26 @@
 import os
-from sqlalchemy import create_engine, Column, Integer, String, DateTime, func
+from sqlalchemy import create_engine, Column, Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 
-# Use your actual password "root"
-#DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:root@localhost:5432/qrdb")
+from sqlalchemy.sql.functions import func
 
-# add render database
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://pravat:YntPdcOJ3s4JBaKi75H16IUWrf1I9Pt8@dpg-d2fka2ggjchc73fp7adg-a/opc_data")
+# Use your actual DB URL here
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:root@localhost:5432/qrdb")
+
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
 class Scan(Base):
-    __tablename__ = "scans_tabale_1"
+    __tablename__ = "scans_table"
     id = Column(Integer, primary_key=True, index=True)
     phone_number = Column(String, index=True)
     name = Column(String, index=True)
     serial_num = Column(Integer, unique=True, index=True)  # Unique serial number
     timestamp = Column(DateTime, default=datetime.utcnow)
-    unique_code = Column(String, index=True)
+
 
 
 def init_db():
@@ -38,11 +38,11 @@ def get_next_serial():
         session.close()
 
 
-def save_number(phone_number: str, name: str,unique_code:str):
+def save_number(phone_number: str, name: str):
     session = SessionLocal()
     try:
         serial_num = get_next_serial()
-        scan = Scan(phone_number=phone_number, name=name, serial_num=serial_num,unique_code=unique_code)
+        scan = Scan(phone_number=phone_number, name=name, serial_num=serial_num)
         session.add(scan)
         session.commit()
         return serial_num
