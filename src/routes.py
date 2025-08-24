@@ -1,4 +1,5 @@
 import json
+import logging
 
 from flask import Blueprint, request, render_template, flash
 from twilio.rest import Client
@@ -7,6 +8,12 @@ import qrcode
 import io
 from flask import send_file
 
+# Setup logging (put this once in your app.py or main entry point)
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s"
+)
+logger = logging.getLogger(__name__)
 # Define single blueprint
 bp = Blueprint("main", __name__)
 
@@ -69,6 +76,7 @@ def scan():
 
                 flash("✅ WhatsApp message sent!")
             except Exception as e:
+                logger.error("Error while sending WhatsApp message", exc_info=True)
                 flash(f"⚠️ Failed to send WhatsApp message: {e}")
 
             return render_template("thankyou.html", phone=phone, unique_code=unique_code)
