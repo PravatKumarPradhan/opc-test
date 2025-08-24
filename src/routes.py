@@ -19,7 +19,7 @@ bp = Blueprint("main", __name__)
 
 # Twilio config (replace with your credentials)
 TWILIO_SID = 'ACbf4cab149c7f09ad56d21b12bfe3be6f'
-TWILIO_AUTH_TOKEN = 'e89fab27e11c023162d4d0b786e277f2'
+TWILIO_AUTH_TOKEN = 'be4f757766332409204953c70d121d33'
 #TWILIO_WHATSAPP ='whatsapp:+14155238886'  # Twilio sandbox number
 TWILIO_WHATSAPP ='whatsapp:+917064578737'  # Twilio sandbox number
 
