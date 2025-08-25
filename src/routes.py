@@ -1,5 +1,6 @@
 import json
 import logging
+import os
 
 from flask import Blueprint, request, render_template, flash
 from twilio.rest import Client
@@ -18,12 +19,15 @@ logger = logging.getLogger(__name__)
 bp = Blueprint("main", __name__)
 
 # Twilio config (replace with your credentials)
-TWILIO_SID = 'ACbf4cab149c7f09ad56d21b12bfe3be6f'
-TWILIO_AUTH_TOKEN = 'be4f757766332409204953c70d121d33'
+#TWILIO_SID = 'ACbf4cab149c7f09ad56d21b12bfe3be6f'
+#TWILIO_AUTH_TOKEN = 'a8b7feceb43ac8b9934a7b787a57ab2'
+# Load Twilio credentials from environment variables
+account_sid = os.getenv("TWILIO_SID")
+auth_token = os.getenv("TWILIO_AUTH_TOKEN")
 #TWILIO_WHATSAPP ='whatsapp:+14155238886'  # Twilio sandbox number
 TWILIO_WHATSAPP ='whatsapp:+917064578737'  # Twilio sandbox number
 
-client = Client(TWILIO_SID, TWILIO_AUTH_TOKEN)
+client = Client(account_sid, auth_token)
 
 
 @bp.route("/")
@@ -67,8 +71,7 @@ def scan():
                 client.messages.create(
                     from_=TWILIO_WHATSAPP,
                     to=f"whatsapp:+91{phone}",
-                    content_sid='HX44038ebd7d7a19b99f3504890df73a36',
-                   # content_sid='HX7c01873d5dbcaea6c40136f4a3efdd13',
+                    content_sid='HXd86f798c23cc09882f161d75d5d53814',
                     content_variables=json.dumps({
                         "1": name
                     })

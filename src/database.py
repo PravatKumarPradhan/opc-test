@@ -5,10 +5,10 @@ from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 
 # Use your actual password "root"
-#DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:root@localhost:5432/qrdb")
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:root@localhost:5432/qrdb")
 
 # add render database
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://pravat:YntPdcOJ3s4JBaKi75H16IUWrf1I9Pt8@dpg-d2fka2ggjchc73fp7adg-a/opc_data")
+#DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://pravat:YntPdcOJ3s4JBaKi75H16IUWrf1I9Pt8@dpg-d2fka2ggjchc73fp7adg-a/opc_data")
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
