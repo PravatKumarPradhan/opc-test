@@ -37,7 +37,7 @@ def index():
 @bp.route("/qr")
 def qr():
    ## wa_link = "https://wa.me/14155238886?text=join%20cute-panda"
-    wa_link = "http://192.168.1.12:5000/scan"
+    #wa_link = "http://172.20.10.4:5000/scan"
     wa_link = "https://opc-test.onrender.com/scan"
     img = qrcode.make(wa_link)
     buf = io.BytesIO()
@@ -67,10 +67,10 @@ def scan():
                 client.messages.create(
                     from_=TWILIO_WHATSAPP,
                     to=f"whatsapp:+91{phone}",
-                    content_sid='HX5b7a365f0916d826df0338ebc634ecaf',
+                    content_sid='HX44038ebd7d7a19b99f3504890df73a36',
+                   # content_sid='HX7c01873d5dbcaea6c40136f4a3efdd13',
                     content_variables=json.dumps({
-                        "1": name,
-                        "2": unique_code
+                        "1": name
                     })
                 )
 
