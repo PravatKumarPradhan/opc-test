@@ -3,6 +3,7 @@ from sqlalchemy import create_engine, Column, Integer, String, DateTime, func
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
+from sqlalchemy.orm import declarative_base
 
 # Use your actual password "root"
 #DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:root@localhost:5432/qrdb")
@@ -14,7 +15,7 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
 class Scan(Base):
-    __tablename__ = "scans_tabale_1"
+    __tablename__ = "opc_register"
     id = Column(Integer, primary_key=True, index=True)
     phone_number = Column(String, index=True)
     name = Column(String, index=True)
@@ -38,11 +39,19 @@ def get_next_serial():
         session.close()
 
 
-def save_number(phone_number: str, name: str,unique_code:str):
+def save_number(phone_number: str, name: str, serial_num: int, unique_code: str):
     session = SessionLocal()
     try:
-        serial_num = get_next_serial()
-        scan = Scan(phone_number=phone_number, name=name, serial_num=serial_num,unique_code=unique_code)
+        existing = session.query(Scan).filter(Scan.phone_number == phone_number).first()
+        if existing:
+            return None
+
+        scan = Scan(
+            phone_number=phone_number,
+            name=name,
+            serial_num=serial_num,
+            unique_code=unique_code
+        )
         session.add(scan)
         session.commit()
         return serial_num
