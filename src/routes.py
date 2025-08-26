@@ -42,7 +42,8 @@ def index():
 def qr():
    ## wa_link = "https://wa.me/14155238886?text=join%20cute-panda"
     #wa_link = "http://172.20.10.4:5000/scan"
-    wa_link = "https://opc-test.onrender.com/scan"
+    #wa_link = "https://opc-test.onrender.com/scan"
+    wa_link = "http://0.0.0.0:10000/scan"
     img = qrcode.make(wa_link)
     buf = io.BytesIO()
     img.save(buf, format="PNG")
@@ -71,10 +72,11 @@ def scan():
                 client.messages.create(
                     from_=TWILIO_WHATSAPP,
                     to=f"whatsapp:+91{phone}",
-                    content_sid='HXd86f798c23cc09882f161d75d5d53814',
-                    content_variables=json.dumps({
-                        "1": name
-                    })
+                    #content_sid='HXd86f798c23cc09882f161d75d5d53814',
+                    content_sid='HXfccddfa8a463bf96b5e206a6a8d3ab77',
+                    # content_variables=json.dumps({
+                    #     "1": name
+                    # })
                 )
 
                 flash("✅ WhatsApp message sent!")
