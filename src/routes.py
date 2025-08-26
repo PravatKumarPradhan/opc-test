@@ -1,8 +1,9 @@
+import csv
 import json
 import logging
 import os
 
-from flask import Blueprint, request, render_template, flash
+from flask import Blueprint, request, render_template, flash, Response
 from twilio.rest import Client
 from src.database import save_number, SessionLocal, Scan, get_next_serial
 import qrcode
@@ -42,8 +43,8 @@ def index():
 def qr():
    ## wa_link = "https://wa.me/14155238886?text=join%20cute-panda"
     #wa_link = "http://172.20.10.4:5000/scan"
-    #wa_link = "https://opc-test.onrender.com/scan"
-    wa_link = "http://0.0.0.0:10000/scan"
+    wa_link = "https://opc-test.onrender.com/scan"
+    #wa_link = "http://0.0.0.0:10000/scan"
     img = qrcode.make(wa_link)
     buf = io.BytesIO()
     img.save(buf, format="PNG")
@@ -60,12 +61,13 @@ def scan():
         phone = request.form.get("phone")
         name = request.form.get("name")
         if phone:
-            # Example: get_next_serial() fetches and increments serial from DB
-            serial_num = get_next_serial()  # implement this based on your DB
+            serial_num = get_next_serial()
             unique_code = generate_unique_code(serial_num)
+            result = save_number(phone, name, serial_num, unique_code)
 
-            # Save user data with unique code as needed
-            save_number(phone, name, unique_code)
+            if result is None:
+                flash("⚠️ This number is already registered!")
+                return render_template("thankyou.html", name=name, phone=phone, unique_code="(Already Registered)")
 
             # Send WhatsApp message including the unique code
             try:
@@ -84,7 +86,7 @@ def scan():
                 logger.error("Error while sending WhatsApp message", exc_info=True)
                 flash(f"⚠️ Failed to send WhatsApp message: {e}")
 
-            return render_template("thankyou.html", phone=phone, unique_code=unique_code)
+            return render_template(                                                                                      "thank_you.html",name=name, phone=phone, unique_code=unique_code)
 
     return render_template("scan_form.html")
 
@@ -97,3 +99,31 @@ def admin_scans():
         return render_template("admin_scans.html", scans=scans)
     finally:
         session.close()
+
+
+@bp.route("/export_csv")
+def export_csv():
+    session = SessionLocal()
+    scans = session.query(Scan).all()
+    session.close()
+
+    # Create an in-memory file
+    output = io.StringIO()
+    writer = csv.writer(output)
+
+    # Write header
+    writer.writerow(["ID", "Phone Number", "Timestamp", "Name", "Unique Code"])
+
+    # Write data rows
+    for scan in scans:
+        writer.writerow([scan.id, scan.phone_number, scan.timestamp, scan.name, scan.unique_code])
+
+    # Go back to start of the StringIO buffer
+    output.seek(0)
+
+    # Send response as CSV
+    return Response(
+        output.getvalue(),
+        mimetype="text/csv",
+        headers={"Content-Disposition": "attachment; filename=scanned_numbers.csv"}
+    )

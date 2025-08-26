@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Thank You - Mahavinayaka Mahotsava</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fff7e6, #ffe6f0);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+            padding: 40px;
+            max-width: 650px;
+            text-align: center;
+            animation: fadeIn 1.2s ease-in-out;
+        }
+
+        h2 {
+            color: #d35400;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 1.2em;
+            color: #444;
+            line-height: 1.6;
+            margin: 15px 0;
+        }
+
+        .coupon {
+            margin-top: 20px;
+            padding: 15px;
+            background: #fdf5d5;
+            border: 2px dashed #d35400;
+            border-radius: 12px;
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 1.3em;
+        }
+
+        .footer {
+            margin-top: 25px;
+            font-size: 1.1em;
+            color: #555;
+            font-weight: bold;
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0; transform: translateY(20px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>🌸✨ Dear {{ name }}, ✨🌸</h2>
+
+        <p>
+            Thank you for joining us at the <b>MAHA VINAYAKA MAHOTSAVA!</b><br>
+            May Lord Ganesha bless you with <b>happiness, prosperity, and wisdom</b>. 🙏🐘🌺
+        </p>
+
+        <div class="coupon">
+            🎟️ Please collect your coupon: <br>
+            <span>{{ unique_code }}</span>
+        </div>
+
+        <div class="footer">
+             Team OPC
+        </div>
+    </div>
+</body>
+</html>
